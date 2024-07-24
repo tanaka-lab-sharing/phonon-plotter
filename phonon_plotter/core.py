@@ -22,6 +22,7 @@ class Plotter:
             for i in range(self._n_band)
         ]
 
+        # Create list of label and list of label distance
         self._labels = []
         self._label_dists = []
         for point in data[0]["phonon"]:
@@ -30,3 +31,15 @@ class Plotter:
 
             self._labels.append(point["label"])
             self._label_dists.append(point["distance"])
+        if len(self._labels) == 0:
+            # Create list of label
+            for cnt, (i, j) in enumerate(data[0]["labels"]):
+                if cnt == 0:
+                    self._labels.append(i)
+                self._labels.append(j)
+
+            # Create list of label distance
+            step = data[0]["segment_nqpoint"][0]
+            n_dists = len(self._dists[0])
+            self._label_dists = [self._dists[0][i] for i in range(0, n_dists, step)]
+            self._label_dists.append(self._dists[0][-1])
