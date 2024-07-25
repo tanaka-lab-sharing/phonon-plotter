@@ -47,18 +47,24 @@ class Plotter:
             self._label_dists = [self._dists[0][i] for i in range(0, n_dists, step)]
             self._label_dists.append(self._dists[0][-1])
 
-    def plot(self) -> None:
-        """Plot phonon bands"""
+    def plot(self, label_size: int = 28, tick_size: int = 24) -> None:
+        """Plot phonon bands
+
+        Args:
+            label_size (int, optional): The size of axis labels. Defaults to 28.
+            tick_size (int, optional): The size of ticks. Defaults to 24.
+        """
         if self._n_band > 1:
             self._fig, self._ax = plt.subplots(figsize=(16, 12))
         else:
             self._fig, self._ax = plt.subplots(figsize=(12.6, 12))
 
         # Fix the appearance of phonon bands
-        self._ax.set_xlabel("Wave vector")
-        self._ax.set_ylabel("Frequency (THz)")
+        self._ax.set_xlabel("Wave vector", fontsize=label_size)
+        self._ax.set_ylabel("Frequency (THz)", fontsize=label_size)
         self._ax.set_xlim(0, self._label_dists[-1])
         self._ax.set_xticks(self._label_dists, self._labels)
+        self._ax.tick_params(labelsize=tick_size)
         self._ax.tick_params(axis="x", bottom=False)
 
         if self._n_band > 1:
