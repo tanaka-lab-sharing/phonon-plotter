@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 import matplotlib.pyplot as plt
 import yaml
@@ -47,13 +47,22 @@ class Plotter:
             self._label_dists = [self._dists[0][i] for i in range(0, n_dists, step)]
             self._label_dists.append(self._dists[0][-1])
 
-    def plot(self, label_size: int = 28, tick_size: int = 24) -> None:
+    def plot(
+        self,
+        label_size: int = 28,
+        tick_size: int = 24,
+        colors: Optional[List[str]] = None,
+    ) -> None:
         """Plot phonon bands
 
         Args:
             label_size (int, optional): The size of axis labels. Defaults to 28.
             tick_size (int, optional): The size of ticks. Defaults to 24.
+            colors (List[str], optional): List of plot color. Defaults to None.
         """
+        if colors is None:
+            colors = COLORS
+
         if self._n_band > 1:
             self._fig, self._ax = plt.subplots(figsize=(16, 12))
         else:
@@ -73,7 +82,7 @@ class Plotter:
                     self._dists[0],
                     self._eigenvalues[i],
                     linewidth=1.5,
-                    color=COLORS[i],
+                    color=colors[i],
                 )
         else:
             self._ax.plot(
